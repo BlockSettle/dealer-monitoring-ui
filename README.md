@@ -1,4 +1,18 @@
-# Getting Started with Create React App
+## Quick start
+
+1.  Make sure that you have Node.js v18.12.0 ,npm v8 and yarn 1.22.19 or above installed.
+2.  Clone this repo using `git clone https://github.com/nikitaromanenko99/remote-worker-websocket.git <YOUR_PROJECT_NAME>`
+3.  Move to the appropriate directory: `cd <YOUR_PROJECT_NAME>`.<br />
+4.  Run `yarn` in order to install dependencies and clean the git repo.<br />
+    _At this point you can run `yarn start` to see the test app at `http://localhost:3000`._
+
+## Docker Setup
+1.  First, install docker.
+2.  Run "docker compose build", if you don't use Docker-Desktop, the command would be "docker-compose build".
+3.  Run "docker compose up", if you don't use Docker-Desktop, the command would be "docker-compose up". 
+4.  Open your browser and go to http://localhost:3000.
+
+Now you're ready to rumble!
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
@@ -28,19 +42,3 @@ The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
