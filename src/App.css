@@ -47,13 +47,16 @@ div {
 
 .print_tree {
   margin-top: 20px;
-  max-height: calc(100vh - 142px);
+  max-height: calc(100vh - 200px);
   overflow: auto;
   padding-left: 50px;
   padding-right: 20px;
   font-size: 16px;
   color: black;
   position: relative;
+  width: 100%;
+  border: 1px solid gray;
+  border-radius: 5px;
 }
 
 .print_tree span.not_space {
@@ -81,4 +84,46 @@ div {
 .print_tree .row:hover {
   border: 0.5px solid gray;
   border-radius: 5px;
+}
+
+.status_bar {
+  font-size: 14px;
+  text-align: center;
+}
+
+.main_content {
+  display: flex;
+  gap: 20px;
+}
+
+.service_list {
+  display: flex;
+  flex-direction: column;
+  gap: "15px";
+}
+
+.service_list_item {
+  cursor: pointer;
+}
+
+.service_list_item:hover {
+  border-bottom: 2px solid gray;
+}
+
+.service_list_item.selected {
+  border-bottom: 1px solid gray;
+}
+
+.count_tag {
+  border-radius: 20px;
+  background-color: burlywood;
+  padding: 3px;
+  padding-left: 16px;
+  padding-right: 16px;
+  margin: 3px;
+  font-weight: bold;
+}
+
+.count_tag.last {
+  color: red;
 }

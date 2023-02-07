@@ -6,7 +6,7 @@ export default function PrintTree(props: { data: any }) {
 
   React.useEffect(() => {
     var _tree: any[] = [];
-    
+
     const generateTree = (data: any, deep: number): any[] => {
       _tree.push(
         <span className="not_space" key={keyCounter++}>
@@ -63,8 +63,8 @@ export default function PrintTree(props: { data: any }) {
     };
 
     if (props.data) setTree(generateTree(props.data, 0));
-  }, [props.data]);
-  
+  }, [props]);
+
   return (
     <div className="print_tree">
       <pre>{tree}</pre>

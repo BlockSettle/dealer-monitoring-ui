@@ -1,7 +1,6 @@
 /* eslint-disable-next-line no-restricted-globals */
 const sharedWorkerCode = () => {
   self.addEventListener("connect", (event) => {
-    console.log(event.ports);
     const port = event.ports[0];
 
     const ws = new WebSocket(
@@ -11,9 +10,7 @@ const sharedWorkerCode = () => {
     ws.onmessage = function (event) {
       const json = JSON.parse(event.data);
       try {
-        if ((json.event = "data")) {
-          port.postMessage({ message: "data_arrived", payload: json });
-        }
+        port.postMessage({ message: "data_arrived", payload: json });
       } catch (err) {
         port.postMessageError(err);
       }
