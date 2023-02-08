@@ -4,13 +4,15 @@ const toThreePrecision = (value: string | number) => {
   return Math.round(Number(value) * 1000) / 1000;
 };
 
-export default function BalanceTable(props: { data: any[] }) {
-  const [Leverex, setLeverex] = React.useState<any[]>([]);
-  const [Bitfinex, setBitfinex] = React.useState<any[]>([]);
+export default function BalanceTable(props: { data: any }) {
+  const [Leverex, setLeverex] = React.useState<any>(props.data.balances.maker);
+  const [Bitfinex, setBitfinex] = React.useState<any>(
+    props.data.balances.taker
+  );
 
   React.useEffect(() => {
-    setLeverex(props.data.map((_data) => _data.balances.maker));
-    setBitfinex(props.data.map((_data) => _data.balances.taker));
+    setLeverex(props.data.balances.maker);
+    setBitfinex(props.data.balances.taker);
   }, [props]);
 
   return (
@@ -19,10 +21,11 @@ export default function BalanceTable(props: { data: any[] }) {
         style={{
           display: "flex",
           gap: "15px",
-          maxWidth: "100%",
+          width: "100%",
+          overflow: "auto",
         }}
       >
-        <div style={{ maxWidth: "50%" }}>
+        <div style={{ width: "50%", overflow: "hidden" }}>
           <h3>Bitfinex Balance</h3>
           <div className="table-wrapper">
             <table>
@@ -35,32 +38,32 @@ export default function BalanceTable(props: { data: any[] }) {
                 </tr>
               </thead>
               <tbody>
-                {Bitfinex.map((_item, index) => (
-                  <tr key={index}>
-                    <td>
-                      {_item.balances.margin &&
-                        toThreePrecision(
-                          _item.balances.margin.TESTUSDTF0.total
-                        )}
-                    </td>
-                    <td>
-                      {_item.balances.margin &&
-                        toThreePrecision(_item.balances.margin.TESTUSDTF0.free)}
-                    </td>
-                    <td>
-                      {_item.balances.margin &&
-                        toThreePrecision(
-                          _item.balances.margin.TESTUSDTF0.reserved
-                        )}
-                    </td>
-                    <td>{JSON.stringify(_item.ccy)}</td>
-                  </tr>
-                ))}
+                <tr>
+                  <td>
+                    {Bitfinex.balances.margin &&
+                      toThreePrecision(
+                        Bitfinex.balances.margin.TESTUSDTF0.total
+                      )}
+                  </td>
+                  <td>
+                    {Bitfinex.balances.margin &&
+                      toThreePrecision(
+                        Bitfinex.balances.margin.TESTUSDTF0.free
+                      )}
+                  </td>
+                  <td>
+                    {Bitfinex.balances.margin &&
+                      toThreePrecision(
+                        Bitfinex.balances.margin.TESTUSDTF0.reserved
+                      )}
+                  </td>
+                  <td>{JSON.stringify(Bitfinex.ccy)}</td>
+                </tr>
               </tbody>
             </table>
           </div>
         </div>
-        <div>
+        <div style={{ width: "50%", overflow: "hidden" }}>
           <h3>Leverex Balance</h3>
           <div className="table-wrapper">
             <table>
@@ -73,14 +76,12 @@ export default function BalanceTable(props: { data: any[] }) {
                 </tr>
               </thead>
               <tbody>
-                {Leverex.map((_item, index) => (
-                  <tr key={index}>
-                    <td>{new Date(_item._timestamp).toUTCString()}</td>
-                    <td>{toThreePrecision(_item.balances.USDT)}</td>
-                    <td>{toThreePrecision(_item.balances.USDP)}</td>
-                    <td>{_item.ccy}</td>
-                  </tr>
-                ))}
+                <tr>
+                  <td>{new Date(Leverex._timestamp).toUTCString()}</td>
+                  <td>{toThreePrecision(Leverex.balances.USDT)}</td>
+                  <td>{toThreePrecision(Leverex.balances.USDP)}</td>
+                  <td>{Leverex.ccy}</td>
+                </tr>
               </tbody>
             </table>
           </div>

@@ -4,13 +4,31 @@ const toThreePrecision = (value: string | number) => {
   return Math.round(Number(value) * 1000) / 1000;
 };
 
-export default function PositionTable(props: { data: any[] }) {
-  const [Leverex, setLeverex] = React.useState<any[]>([]);
-  const [Bitfinex, setBitfinex] = React.useState<any[]>([]);
+export default function PositionTable(props: { data: any }) {
+  const [Leverex, setLeverex] = React.useState<any>(props.data.positions.maker);
+  const [Bitfinex, setBitfinex] = React.useState<any>(
+    props.data.positions.taker
+  );
+
+  const lOrder = React.useCallback(() => {
+    return Bitfinex.positions[Bitfinex.product][
+      Object.getOwnPropertyNames(Bitfinex.positions[Bitfinex.product])[0]
+    ].position;
+  }, [Bitfinex]);
+
+  const bOrder = React.useCallback(
+    () => ({
+      sessionIM: "",
+      ...Leverex.orderData.orders[
+        Object.getOwnPropertyNames(Leverex.orderData.orders)[0]
+      ],
+    }),
+    [Leverex]
+  );
 
   React.useEffect(() => {
-    setLeverex(props.data.map((_data) => _data.positions.maker));
-    setBitfinex(props.data.map((_data) => _data.positions.taker));
+    setLeverex(props.data.positions.maker);
+    setBitfinex(props.data.positions.taker);
   }, [props]);
 
   return (
@@ -44,30 +62,20 @@ export default function PositionTable(props: { data: any[] }) {
                 </tr>
               </thead>
               <tbody>
-                {Bitfinex.map((_item, index) => {
-                  const order =
-                    _item.positions[_item.product][
-                      Object.getOwnPropertyNames(
-                        _item.positions[_item.product]
-                      )[0]
-                    ].position;
-                  return (
-                    <tr key={index}>
-                      <td>{_item.name}</td>
-                      <td>{_item.netExposure}</td>
-                      <td>{_item.openPrice}</td>
-                      <td>{_item.product}</td>
-                      <td>{order.symbol}</td>
-                      <td>{order.base_price}</td>
-                      <td>{order.amount}</td>
-                      <td>{order.margin_funding}</td>
-                      <td>{toThreePrecision(order.profit_loss)}</td>
-                      <td>{order.liquidation_price}</td>
-                      <td>{toThreePrecision(order.leverage)}</td>
-                      <td>{toThreePrecision(order.collateral)}</td>
-                    </tr>
-                  );
-                })}
+                <tr>
+                  <td>{Bitfinex.name}</td>
+                  <td>{Bitfinex.netExposure}</td>
+                  <td>{Bitfinex.openPrice}</td>
+                  <td>{Bitfinex.product}</td>
+                  <td>{lOrder().symbol}</td>
+                  <td>{lOrder().base_price}</td>
+                  <td>{lOrder().amount}</td>
+                  <td>{lOrder().margin_funding}</td>
+                  <td>{toThreePrecision(lOrder().profit_loss)}</td>
+                  <td>{toThreePrecision(lOrder().liquidation_price)}</td>
+                  <td>{toThreePrecision(lOrder().leverage)}</td>
+                  <td>{toThreePrecision(lOrder().collateral)}</td>
+                </tr>
               </tbody>
             </table>
           </div>
@@ -89,26 +97,16 @@ export default function PositionTable(props: { data: any[] }) {
                 </tr>
               </thead>
               <tbody>
-                {Leverex.map((_item, index) => {
-                  const order = {
-                    sessionIM: "",
-                    ..._item.orderData.orders[
-                      Object.getOwnPropertyNames(_item.orderData.orders)[0]
-                    ],
-                  };
-                  return (
-                    <tr key={index}>
-                      <td>{_item.name}</td>
-                      <td>{_item.netExposure}</td>
-                      <td>{_item.openPrice}</td>
-                      <td>{_item.indexPrice}</td>
-                      <td>{order.sessionIM ? order.sessionIM : ""}</td>
-                      <td>{order._fee}</td>
-                      <td>{order._product_type}</td>
-                      <td>{order._quantity}</td>
-                    </tr>
-                  );
-                })}
+                <tr key={Leverex}>
+                  <td>{Leverex.name}</td>
+                  <td>{Leverex.netExposure}</td>
+                  <td>{Leverex.openPrice}</td>
+                  <td>{Leverex.indexPrice}</td>
+                  <td>{bOrder().sessionIM ? bOrder().sessionIM : ""}</td>
+                  <td>{bOrder()._fee}</td>
+                  <td>{bOrder()._product_type}</td>
+                  <td>{bOrder()._quantity}</td>
+                </tr>
               </tbody>
             </table>
           </div>

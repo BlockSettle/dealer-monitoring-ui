@@ -3,6 +3,8 @@ const sharedWorkerCode = () => {
   self.addEventListener("connect", (event) => {
     const port = event.ports[0];
 
+    port.start();
+
     const ws = new WebSocket(
       "wss://dealer-status-reporter-devprem.leverex.io/websocket"
     );
@@ -24,14 +26,13 @@ const sharedWorkerCode = () => {
     };
 
     ws.onopen = function (_) {
+      ws.send("request");
       sendWebSocketState();
     };
 
     ws.onclose = function (_) {
       sendWebSocketState();
     };
-
-    port.start();
   });
 };
 

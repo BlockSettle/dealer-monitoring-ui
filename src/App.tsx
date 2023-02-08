@@ -43,6 +43,12 @@ function App() {
     };
   }, []);
 
+  const getLastOneByGroup = React.useCallback(() => {
+    return dataStreams[selectedService][
+      dataStreams[selectedService].length - 1
+    ];
+  }, [dataStreams, selectedService]);
+
   return (
     <div className="root_container">
       <span className="state">
@@ -52,7 +58,7 @@ function App() {
         {readyState === 3 && <span className="close">Close</span>}
       </span>
       <p className="status_bar">Received Count : {receivedCount}</p>
-      <div className="main_content">
+      <div className="main_content individual-container">
         <div className="service_list">
           {Object.getOwnPropertyNames(dataStreams).map((prop, index) => (
             <p
@@ -74,9 +80,9 @@ function App() {
         {selectedService !== "" &&
           typeof dataStreams[selectedService] !== "undefined" && (
             <div className="tables-container">
-              <StatusTable data={dataStreams[selectedService]} />
-              <PositionTable data={dataStreams[selectedService]} />
-              <BalanceTable data={dataStreams[selectedService]} />
+              <StatusTable data={getLastOneByGroup()} />
+              <PositionTable data={getLastOneByGroup()} />
+              <BalanceTable data={getLastOneByGroup()} />
             </div>
           )}
       </div>

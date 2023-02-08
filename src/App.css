@@ -101,6 +101,7 @@ div {
   display: flex;
   flex-direction: column;
   gap: "15px";
+  border-right: 1px solid gray;
 }
 
 .service_list_item {
@@ -130,11 +131,19 @@ div {
 }
 
 span.online {
-  color: green;
+  color: white;
+  background-color: green;
+  padding: 5px 10px;
+  border-radius: 7px;
+  margin-left: 20px;
 }
 
 span.offline {
-  color: red;
+  color: white;
+  background-color: red;
+  padding: 5px 10px;
+  border-radius: 7px;
+  margin-left: 20px;
 }
 
 td {
@@ -157,4 +166,13 @@ td {
   max-width: 100%;
   width: 100%;
   overflow: hidden;
+}
+
+.individual-container {
+  max-width: 100%;
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid gray;
+  padding: 20px;
+  box-shadow: 2px 4px 5px black;
 }
