@@ -93,6 +93,7 @@ div {
 
 .main_content {
   display: flex;
+  width: 100%;
   gap: 20px;
 }
 
@@ -126,4 +127,34 @@ div {
 
 .count_tag.last {
   color: red;
+}
+
+span.online {
+  color: green;
+}
+
+span.offline {
+  color: red;
+}
+
+td {
+  border-top: 0.5px solid black;
+  padding: 5px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.table-wrapper {
+  max-height: 40vh;
+  max-width: 100%;
+  overflow: auto;
+  border: 1px solid black;
+  border-radius: 5px;
+  width: fit-content;
+}
+
+.tables-container {
+  max-width: 100%;
+  width: 100%;
+  overflow: hidden;
 }

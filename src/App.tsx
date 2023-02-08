@@ -1,6 +1,9 @@
 import "./App.css";
 import React from "react";
 import PrintTree from "./components/PrintTree";
+import BalanceTable from "./components/BalanceTable";
+import PositionTable from "./components/PositionTable";
+import StatusTable from "./components/StatusTable";
 
 const worker_script = require("./worker");
 
@@ -26,7 +29,7 @@ function App() {
           setLastService(serviceId);
           if (typeof reserved[serviceId] === "undefined")
             reserved[serviceId] = [];
-          reserved[serviceId].push(event.data.payload);
+          reserved[serviceId].push(event.data.payload.data.data);
           return reserved;
         };
       } else if (event.data.message === "state_changed") {
@@ -70,7 +73,11 @@ function App() {
         </div>
         {selectedService !== "" &&
           typeof dataStreams[selectedService] !== "undefined" && (
-            <PrintTree data={dataStreams[selectedService]} />
+            <div className="tables-container">
+              <StatusTable data={dataStreams[selectedService]} />
+              <PositionTable data={dataStreams[selectedService]} />
+              <BalanceTable data={dataStreams[selectedService]} />
+            </div>
           )}
       </div>
     </div>
