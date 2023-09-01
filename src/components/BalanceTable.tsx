@@ -5,14 +5,27 @@ const toThreePrecision = (value: string | number) => {
 };
 
 export default function BalanceTable(props: { data: any }) {
-  const [Leverex, setLeverex] = React.useState<any>(props.data.balances.maker);
-  const [Bitfinex, setBitfinex] = React.useState<any>(
-    props.data.balances.taker
-  );
+  const validateData = (data: any) => {
+    if (!data || typeof data !== 'object') return {};
+
+    const maker = data.balances?.maker || {};
+    const taker = data.balances?.taker || {};
+
+    return {
+      Leverex: maker,
+      Bitfinex: taker
+    };
+  };
+
+  const { Leverex, Bitfinex } = validateData(props.data);
+
+  const [LeverexState, setLeverexState] = React.useState<any>(Leverex);
+  const [BitfinexState, setBitfinexState] = React.useState<any>(Bitfinex);
 
   React.useEffect(() => {
-    setLeverex(props.data.balances.maker);
-    setBitfinex(props.data.balances.taker);
+    const { Leverex, Bitfinex } = validateData(props.data);
+    setLeverexState(Leverex);
+    setBitfinexState(Bitfinex);
   }, [props]);
 
   return (
@@ -38,27 +51,14 @@ export default function BalanceTable(props: { data: any }) {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>
-                    {Bitfinex.balances.margin &&
-                      toThreePrecision(
-                        Bitfinex.balances.margin.TESTUSDTF0.total
-                      )}
-                  </td>
-                  <td>
-                    {Bitfinex.balances.margin &&
-                      toThreePrecision(
-                        Bitfinex.balances.margin.TESTUSDTF0.free
-                      )}
-                  </td>
-                  <td>
-                    {Bitfinex.balances.margin &&
-                      toThreePrecision(
-                        Bitfinex.balances.margin.TESTUSDTF0.reserved
-                      )}
-                  </td>
-                  <td>{JSON.stringify(Bitfinex.ccy)}</td>
-                </tr>
+                {BitfinexState.balances?.margin && (
+                  <tr>
+                    <td>{toThreePrecision(BitfinexState.balances.margin.TESTUSDTF0?.total || 0)}</td>
+                    <td>{toThreePrecision(BitfinexState.balances.margin.TESTUSDTF0?.free || 0)}</td>
+                    <td>{toThreePrecision(BitfinexState.balances.margin.TESTUSDTF0?.reserved || 0)}</td>
+                    <td>{JSON.stringify(BitfinexState.ccy)}</td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>
@@ -77,10 +77,10 @@ export default function BalanceTable(props: { data: any }) {
               </thead>
               <tbody>
                 <tr>
-                  <td>{new Date(Leverex._timestamp).toUTCString()}</td>
-                  <td>{toThreePrecision(Leverex.balances.USDT)}</td>
-                  <td>{toThreePrecision(Leverex.balances.USDP)}</td>
-                  <td>{Leverex.ccy}</td>
+                  <td>{new Date(LeverexState._timestamp || '').toUTCString()}</td>
+                  <td>{toThreePrecision(LeverexState.balances?.USDT || 0)}</td>
+                  <td>{toThreePrecision(LeverexState.balances?.USDP || 0)}</td>
+                  <td>{LeverexState.ccy}</td>
                 </tr>
               </tbody>
             </table>
@@ -90,3 +90,4 @@ export default function BalanceTable(props: { data: any }) {
     </>
   );
 }
+
