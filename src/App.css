@@ -93,6 +93,7 @@ div {
 
 .main_content {
   display: flex;
+  width: 100%;
   gap: 20px;
 }
 
@@ -100,6 +101,7 @@ div {
   display: flex;
   flex-direction: column;
   gap: "15px";
+  border-right: 1px solid gray;
 }
 
 .service_list_item {
@@ -126,4 +128,51 @@ div {
 
 .count_tag.last {
   color: red;
+}
+
+span.online {
+  color: white;
+  background-color: green;
+  padding: 5px 10px;
+  border-radius: 7px;
+  margin-left: 20px;
+}
+
+span.offline {
+  color: white;
+  background-color: red;
+  padding: 5px 10px;
+  border-radius: 7px;
+  margin-left: 20px;
+}
+
+td {
+  border-top: 0.5px solid black;
+  padding: 5px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.table-wrapper {
+  max-height: 40vh;
+  max-width: 100%;
+  overflow: auto;
+  border: 1px solid black;
+  border-radius: 5px;
+  width: fit-content;
+}
+
+.tables-container {
+  max-width: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.individual-container {
+  max-width: 100%;
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid gray;
+  padding: 20px;
+  box-shadow: 2px 4px 5px black;
 }

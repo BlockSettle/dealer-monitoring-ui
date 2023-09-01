@@ -1,6 +1,9 @@
 import "./App.css";
 import React from "react";
 import PrintTree from "./components/PrintTree";
+import BalanceTable from "./components/BalanceTable";
+import PositionTable from "./components/PositionTable";
+import StatusTable from "./components/StatusTable";
 
 const worker_script = require("./worker");
 
@@ -26,7 +29,7 @@ function App() {
           setLastService(serviceId);
           if (typeof reserved[serviceId] === "undefined")
             reserved[serviceId] = [];
-          reserved[serviceId].push(event.data.payload);
+          reserved[serviceId].push(event.data.payload.data.data);
           return reserved;
         };
       } else if (event.data.message === "state_changed") {
@@ -40,6 +43,12 @@ function App() {
     };
   }, []);
 
+  const getLastOneByGroup = React.useCallback(() => {
+    return dataStreams[selectedService][
+      dataStreams[selectedService].length - 1
+    ];
+  }, [dataStreams, selectedService]);
+
   return (
     <div className="root_container">
       <span className="state">
@@ -49,7 +58,7 @@ function App() {
         {readyState === 3 && <span className="close">Close</span>}
       </span>
       <p className="status_bar">Received Count : {receivedCount}</p>
-      <div className="main_content">
+      <div className="main_content individual-container">
         <div className="service_list">
           {Object.getOwnPropertyNames(dataStreams).map((prop, index) => (
             <p
@@ -70,7 +79,11 @@ function App() {
         </div>
         {selectedService !== "" &&
           typeof dataStreams[selectedService] !== "undefined" && (
-            <PrintTree data={dataStreams[selectedService]} />
+            <div className="tables-container">
+              <StatusTable data={getLastOneByGroup()} />
+              <PositionTable data={getLastOneByGroup()} />
+              <BalanceTable data={getLastOneByGroup()} />
+            </div>
           )}
       </div>
     </div>
