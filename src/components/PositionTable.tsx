@@ -11,15 +11,18 @@ export default function PositionTable(props: { data: any }) {
   );
 
   const lOrder = React.useCallback(() => {
-    return Bitfinex.positions[Bitfinex.product][
-      Object.getOwnPropertyNames(Bitfinex.positions[Bitfinex.product])[0]
-    ].position;
+    const positions = Bitfinex.positions[Bitfinex.product];
+    return (
+      positions?.[
+        Object.getOwnPropertyNames(Bitfinex.positions[Bitfinex.product])[0]
+      ].position ?? []
+    );
   }, [Bitfinex]);
 
   const bOrder = React.useCallback(
     () => ({
       sessionIM: "",
-      ...Leverex.orderData.orders[
+      ...Leverex.orderData?.orders[
         Object.getOwnPropertyNames(Leverex.orderData.orders)[0]
       ],
     }),
@@ -67,14 +70,14 @@ export default function PositionTable(props: { data: any }) {
                   <td>{Bitfinex.netExposure}</td>
                   <td>{Bitfinex.openPrice}</td>
                   <td>{Bitfinex.product}</td>
-                  <td>{lOrder().symbol}</td>
-                  <td>{lOrder().base_price}</td>
-                  <td>{lOrder().amount}</td>
-                  <td>{lOrder().margin_funding}</td>
-                  <td>{toThreePrecision(lOrder().profit_loss)}</td>
-                  <td>{toThreePrecision(lOrder().liquidation_price)}</td>
-                  <td>{toThreePrecision(lOrder().leverage)}</td>
-                  <td>{toThreePrecision(lOrder().collateral)}</td>
+                  <td>{lOrder().symbol ?? ""}</td>
+                  <td>{lOrder().base_price ?? ""}</td>
+                  <td>{lOrder().amount ?? ""}</td>
+                  <td>{lOrder().margin_funding} ?? ''</td>
+                  <td>{toThreePrecision(lOrder().profit_loss ?? "")}</td>
+                  <td>{toThreePrecision(lOrder().liquidation_price ?? "")}</td>
+                  <td>{toThreePrecision(lOrder().leverage ?? "")}</td>
+                  <td>{toThreePrecision(lOrder().collateral ?? "")}</td>
                 </tr>
               </tbody>
             </table>
