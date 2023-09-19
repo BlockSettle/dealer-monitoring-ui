@@ -6,14 +6,14 @@ const toThreePrecision = (value: string | number) => {
 
 export default function BalanceTable(props: { data: any }) {
   const validateData = (data: any) => {
-    if (!data || typeof data !== 'object') return {};
+    if (!data || typeof data !== "object") return {};
 
     const maker = data.balances?.maker || {};
     const taker = data.balances?.taker || {};
 
     return {
       Leverex: maker,
-      Bitfinex: taker
+      Bitfinex: taker,
     };
   };
 
@@ -51,14 +51,20 @@ export default function BalanceTable(props: { data: any }) {
                 </tr>
               </thead>
               <tbody>
-                {BitfinexState.balances?.margin && (
-                  <tr>
-                    <td>{toThreePrecision(BitfinexState.balances.margin.TESTUSDTF0?.total || 0)}</td>
-                    <td>{toThreePrecision(BitfinexState.balances.margin.TESTUSDTF0?.free || 0)}</td>
-                    <td>{toThreePrecision(BitfinexState.balances.margin.TESTUSDTF0?.reserved || 0)}</td>
-                    <td>{JSON.stringify(BitfinexState.ccy)}</td>
-                  </tr>
-                )}
+                {BitfinexState.balances &&
+                  Object.keys(BitfinexState.balances.margin).map(
+                    (key: string, index: React.Key | null | undefined) => {
+                      const balance = BitfinexState.balances.margin[key];
+                      return (
+                        <tr key={index}>
+                          <td>{toThreePrecision(balance?.total || 0)}</td>
+                          <td>{toThreePrecision(balance?.free || 0)}</td>
+                          <td>{toThreePrecision(balance?.reserved || 0)}</td>
+                          <td>{key}</td>
+                        </tr>
+                      );
+                    }
+                  )}
               </tbody>
             </table>
           </div>
@@ -77,7 +83,9 @@ export default function BalanceTable(props: { data: any }) {
               </thead>
               <tbody>
                 <tr>
-                  <td>{new Date(LeverexState._timestamp || '').toUTCString()}</td>
+                  <td>
+                    {new Date(LeverexState._timestamp || "").toUTCString()}
+                  </td>
                   <td>{toThreePrecision(LeverexState.balances?.USDT || 0)}</td>
                   <td>{toThreePrecision(LeverexState.balances?.USDP || 0)}</td>
                   <td>{LeverexState.ccy}</td>
@@ -90,4 +98,3 @@ export default function BalanceTable(props: { data: any }) {
     </>
   );
 }
-
